@@ -1,5 +1,7 @@
 #Projeto ByteCard 
 
+import re
+
 class Cartao:
    
 
@@ -12,7 +14,15 @@ class Cartao:
       self.__cliente = cliente
       self.__status = 'ATIVO'
 
-   def cancela(self):
+      padrao_validade = re.compile('[0-9]{2}\/[0-9]{4}')
+
+      if not padrao_validade.match(self.__validade):
+
+         print(f'Cartão com validade inválida: {self.__validade}')
+
+
+
+   def cancelar(self):
       self.__status = 'CANCELADO'
 
    def ativa(self):
@@ -37,7 +47,7 @@ class Cartao:
 
    @property
    def cliente(self):
-      return self.__cliente
+      return self.__cliente.title()
 
    @property
    def status(self):
@@ -53,12 +63,25 @@ class Compra:
 
          self.__valor = valor
          self.__data = data
-         self.__estabelecimento = estabelecimento
-         self.__categoria = categoria
+         self.__estabelecimento = estabelecimento.strip()
+         self.__categoria = categoria.strip()
          self.__cartao = cartao
-   
+
+         if len(self.__estabelecimento) > 10:
+
+            print(f'Nome do estabelecimento grande: {self.__estabelecimento}')
+         
+         dia_da_compra = self.__data.strftime('%d/%m/%Y')
+
+         hora_da_compra = self.__data.strftime('%H:%M:%S')
+
+         
+         print(f'Compra realizada no dia {dia_da_compra} na hora {hora_da_compra}')
+
    def __str__(self):
          return f'Compra: {self.__valor} no dia {self.__data} em{self.__estabelecimento} no cartão {self.__cartao.numero}'
+         
+
 
    @property
 
