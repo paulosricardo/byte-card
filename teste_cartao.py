@@ -23,8 +23,8 @@ print(mastercard.cliente)
 print(mastercard.status)
 print()
 
-visa.cancelar()
-mastercard.cancelar
+visa.cancela()
+mastercard.cancela
 
 print(visa.status)
 print(mastercard.status)
