@@ -91,8 +91,13 @@ class Compra:
         # print(f'Compra realizada no dia {dia_da_compra} na hora {hora_da_compra}')
 
     @property
+    
     def valor(self):
         return self.__valor
+
+    @property
+    def categoria(self):
+        return self.__categoria
 
     def _str_(self):
         return f'Compra: {self._valor} no dia {self._data} em{self._estabelecimento} no cartão {self._cartao.numero}'
@@ -105,6 +110,7 @@ class CompraCredito(Compra):
         super().__init__(valor, data, estabelecimento, categoria, cartao, id)
 
         self.__quantidade_parcelas = quantidade_parcelas
+
 
     @property
     def valor(self):
