@@ -1,6 +1,5 @@
 from datetime import date, datetime
 from collections import defaultdict
-
 from model import Cartao, Compra, cria_numero_do_cartao, cria_cvv_do_cartao, cria_numero_do_cartao, define_validade_do_cartao
 
 cartao1 = Cartao(cria_numero_do_cartao(), date(2031, 1, 31), '321', 1000.0, 'Steve   Rogers', id = 1)

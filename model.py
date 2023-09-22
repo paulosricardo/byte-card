@@ -1,6 +1,5 @@
 # Projeto ByteCard
 
-import re
 
 from random import randint
 
@@ -8,6 +7,7 @@ from datetime import date
 
 from dateutil.relativedelta import relativedelta
 
+from excecoes import ValorExcedidoException
 
 class Cartao:
 
@@ -17,9 +17,10 @@ class Cartao:
         self.__validade = validade
         self.__cvv = cvv
         self.__limite = limite
-        self.__cliente = cliente
+        self.__set_cliente(cliente)
         self.__status = 'ATIVO'
         self.__id = id
+
 
         # padrao_validade = re.compile('[0-9]{2}\/[0-9]{4}')
 
@@ -55,8 +56,18 @@ class Cartao:
         return self.__limite
 
     @limite.setter
+
     def limite(self, limite):
+        self.__limite(limite)
+
+    def __set__limite(self, limite):
+        limite_minimo = 10
+        if limite < limite_minimo:
+            raise ValvueError(f'O limite deve ser de no mínimo{limite_minimo}')
         self.__limite = limite
+
+    def __set_cliente(self, cliente):
+        self.__cliente = cliente
 
     @property
     def cliente(self):
@@ -69,16 +80,23 @@ class Cartao:
     def _str_(self):
         return f'Cartão(#{self.id}) {self.numero} do(a) {self.cliente} com limite de {self.limite} válido até {self.validade}'
 
+    def __set__limite(self, limite):
+        limite_minimo = 10
+        if limite < limite_minimo:
+            raise ValvueError(f'O limite deve ser de no mínimo {limite_minimo}')
+        self.__limite = limite
+
 
 class Compra:
     def __init__(self, valor, data, estabelecimento, categoria, cartao, id=None):
 
-        self.__valor = valor
+        self.__set__valor(valor)
         self.__data = data
-        self.__estabelecimento = estabelecimento.strip()
+        self.__set__estabelecimento(estabelecimento)
         self.__categoria = categoria.strip()
-        self.__cartao = cartao
+        self.__set__cartao(cartao)
         self.__id = id
+        self.__valida_compra()
 
         # if len(self.__estabelecimento) > 10:
 
@@ -92,16 +110,42 @@ class Compra:
 
     @property
     
-    def valor(self):
-        return self.__valor
+    def __set__valor(self, valor):
+        if valor <= 0:
+            raise ValvueError(f"O valor (valor) deve ser superior a zero")
+        self.__valor = __set__valor
+
+    def __set__cartao(self,cartao):
+        if carta is None:
+            raise ValvueError("É obrigatório um cartão")
+        self.__cartao = cartao
+
+    def __set__estabelecimentoi(self, estabelecimento):
+        limite_caracteres = 30
+        limite_estabelecimento = len(estabelecimento)
+        if tamanho_estabelecimento > limite_caracteres:
+            raise ValvueError(
+               f'Estabelecimento com (tamanho_caracteres) caracteres')
+        self.__estabelecimento = estabelecimento.strip()
 
     @property
     def categoria(self):
         return self.__categoria
 
     def _str_(self):
-        return f'Compra: {self._valor} no dia {self._data} em{self._estabelecimento} no cartão {self._cartao.numero}'
+        return f'Compra: {self.__valor} no dia {self.__data} em{self.__estabelecimento} no cartão {self.__2cartao.numero}'
 
+    def valida_compra(self):
+
+        limite = self.__cartao.limite
+
+        valor = self.__valor
+
+        if valor > limite:
+
+            valor_excedido = valor - limite
+
+            raise ValorExcedidoException(f'O valor da compra excedeu ${valor_excedido} do limite')
 
 class CompraCredito(Compra):
 
