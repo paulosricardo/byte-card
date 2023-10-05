@@ -1,13 +1,15 @@
 # Projeto ByteCard
 
-
-from random import randint
-
+from collections import defaultdict
 from datetime import date
+from datetime import datetime
+from random import randint
 
 from dateutil.relativedelta import relativedelta
 
 from excecoes import ValorExcedidoException
+
+
 
 class Cartao:
 
@@ -16,11 +18,10 @@ class Cartao:
         self.__numero = numero
         self.__validade = validade
         self.__cvv = cvv
-        self.__limite = limite
+        self.__set__limite = limite
         self.__set_cliente(cliente)
         self.__status = 'ATIVO'
         self.__id = id
-
 
         # padrao_validade = re.compile('[0-9]{2}\/[0-9]{4}')
 
@@ -56,7 +57,6 @@ class Cartao:
         return self.__limite
 
     @limite.setter
-
     def limite(self, limite):
         self.__limite(limite)
 
@@ -109,24 +109,22 @@ class Compra:
         # print(f'Compra realizada no dia {dia_da_compra} na hora {hora_da_compra}')
 
     @property
-    
     def __set__valor(self, valor):
-        if valor <= 0:
-            raise ValvueError(f"O valor (valor) deve ser superior a zero")
-        self.__valor = __set__valor
+            if valor <= 0:
+                raise ValvueError(f"O valor (valor) deve ser superior a zero")
+            self.__valor = valor
 
-    def __set__cartao(self,cartao):
-        if carta is None:
-            raise ValvueError("É obrigatório um cartão")
-        self.__cartao = cartao
+    def __set__cartao(self, cartao):
+            if cartao is None:
+                raise ValvueError("É obrigatório um cartão")
+            self.__cartao = cartao
 
-    def __set__estabelecimentoi(self, estabelecimento):
-        limite_caracteres = 30
-        limite_estabelecimento = len(estabelecimento)
-        if tamanho_estabelecimento > limite_caracteres:
-            raise ValvueError(
-               f'Estabelecimento com (tamanho_caracteres) caracteres')
-        self.__estabelecimento = estabelecimento.strip()
+    def __set__estabelecimento(self, estabelecimento):
+            limite_caracteres = 30
+            limite_estabelecimento = len(estabelecimento)
+            if tamanho_estabelecimento > limite_caracteres:
+                raise ValvueError(f'Estabelecimento com (tamanho_caracteres) caracteres')
+            self.__estabelecimento = estabelecimento.strip()
 
     @property
     def categoria(self):
@@ -142,19 +140,17 @@ class Compra:
         valor = self.__valor
 
         if valor > limite:
-
             valor_excedido = valor - limite
 
             raise ValorExcedidoException(f'O valor da compra excedeu ${valor_excedido} do limite')
 
+
 class CompraCredito(Compra):
 
     def __init__(self, valor, data, estabelecimento, categoria, cartao, quantidade_parcelas=1, id=None):
-
         super().__init__(valor, data, estabelecimento, categoria, cartao, id)
 
         self.__quantidade_parcelas = quantidade_parcelas
-
 
     @property
     def valor(self):
@@ -168,17 +164,22 @@ class CompraCredito(Compra):
     def valor_parcela(self):
         return self.valor / self.quantidade_parcelas
 
+from model import Cartao, Compra
+
 
 def cria_numero_do_cartao():
-    grupos_de_numeros = [f'{randint(1, 9999):04}' for i in range(4)]
-    return ' '.join(grupos_de_numeros)
+        grupos_de_numeros = [f'{randint(1, 9999):04}' for i in range(4)]
+        return ' '.join(grupos_de_numeros)
 
 
+    
 def cria_cvv_do_cartao():
-    cvv = f'{randint(1, 999):03}'
-    return cvv
+         cvv = f'{randint(1, 999):03}'
+         return cvv
 
 
 def define_validade_do_cartao():
-    validade = date.today() + relativedelta(years=4, months=6, day=31)
-    return validade
+         validade = date.today() + relativedelta(years=4, months=6, day=31)
+         return validade
+
+

@@ -1,5 +1,10 @@
-from datetime import date, datetime
 from collections import defaultdict
+from datetime import date
+from datetime import datetime
+from random import randint
+
+from dateutil.relativedelta import relativedelta
+
 from model import Cartao, Compra, cria_numero_do_cartao, cria_cvv_do_cartao, cria_numero_do_cartao, define_validade_do_cartao
 
 cartao1 = Cartao(cria_numero_do_cartao(), date(2031, 1, 31), '321', 1000.0, 'Steve   Rogers', id = 1)
@@ -50,5 +55,7 @@ def monta_relatorio_gastos_por_categoria():
         gasto_por_categoria[compra.categoria] += compra.valor
 
     return gasto_por_categoria
+
+
 
 
